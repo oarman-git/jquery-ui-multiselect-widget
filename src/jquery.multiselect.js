@@ -138,7 +138,7 @@
       var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 
       function makeItem(option, isInOptionGroup) {
-        var title = option.title;
+        var title = option.title ? option.title : null;
         var value = option.value;
         var inputID = 'ui-multiselect-' + multiselectID + '-' + (option.id || id + '-option-' + inputIdCounter++);
         var isDisabled = option.disabled;
@@ -170,24 +170,12 @@
           "type": o.multiple ? "checkbox" : "radio",
           "value": value,
           "title": title,
-          "id": inputID
+          "id": inputID,
+          "checked": isSelected ? "checked" : null,
+          "aria-selected": isSelected ? "true" : null,
+          "disabled": isDisabled ? "disabled" : null,
+          "aria-disabled": isDisabled? "true" : null
         }).appendTo($label);
-
-        // pre-selected?
-        if(isSelected) {
-          $input.attr({
-            "checked": "checked",
-            "aria-selected": "true"
-          });
-        }
-
-        // disabled?
-        if(isDisabled) {
-          $input.attr({
-            "disabled": "disabled",
-            "aria-disabled": "true"
-          });
-        }
 
         $("<span/>").text($(option).text()).appendTo($label);
 
